@@ -1,11 +1,13 @@
 /*
 TODO
 Add part preloading assets to Bagel.js, fix issue where the video doesn't load in time
+Use more compression on ogg files. Maybe even 0 quality is enough? Doesn't save too much space compared to 3 though
 MP3 versions
 webP icons
 Next and previous buttons
 
 Bugs
+Buttons behave weirdly on touchscreens
 Too many textures. Doesn't seem to increase when changing between submenus???
 
 Sounds to include (be careful about duplicates) (exclude some that don't work well)
@@ -180,6 +182,71 @@ const game = (_ => {
         {
             src: "toadMoment",
             color: "white"
+        },
+        {
+            src: "futureScott",
+            noIcon: true
+        },
+        {
+            src: "200Nes",
+            noIcon: true
+        },
+        {
+            src: "fridgeUnplugged",
+            noIcon: true
+        },
+        {
+            src: "integrity",
+            noIcon: true
+        },
+        {
+            src: "sonicSpinball",
+            noIcon: true
+        },
+        {
+            src: "scottNo",
+            noIcon: true
+        },
+        {
+            src: "madden08",
+            name: "Madden 08",
+            noIcon: true
+        },
+        {
+            src: "definition",
+            noIcon: true
+        },
+        {
+            src: "finalBreath",
+            noIcon: true
+        },
+        {
+            src: "ringtone",
+            noIcon: true
+        },
+        {
+            src: "911Here",
+            noIcon: true
+        },
+        {
+            src: "911CallBack",
+            noIcon: true
+        },
+        {
+            src: "firstUseAnalogy",
+            noIcon: true
+        },
+        {
+            src: "calledIt",
+            noIcon: true
+        },
+        {
+            src: "topAlcohol",
+            noIcon: true
+        },
+        {
+            src: "thumbPlacement",
+            noIcon: true
         }
     ];
 

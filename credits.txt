@@ -1,3 +1,4 @@
+= Sounds =
 Obviously major credit to Scott The Woz (https://www.youtube.com/c/scottthewoz)
 But I also used a number of compilations to make it easier to find and include the sounds:
 https://www.youtube.com/watch?v=HKOdaSAQwmc (the main one I used)
@@ -6,6 +7,8 @@ https://www.youtube.com/watch?v=xzaqI0JHDsA
 https://www.youtube.com/watch?v=UT6AdRNKKy0
 https://www.youtube.com/watch?v=us_J6Pkom9k
 https://www.youtube.com/watch?v=yD2pdiovGLk
+
+Ringtone: Verizon
 
 = Images =
 V-Bucks/V-Card image: Fornite (Epic Games)
