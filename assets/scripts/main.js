@@ -340,12 +340,12 @@ const game = (_ => {
                     {
                         id: "PreviousButton",
                         src: "assets/imgs/png/previousArrow.png",
-                        webP: "assets/imgs/webP/previousArrow.webP",
+                        webP: "assets/imgs/webP/previousArrow.webp",
                     },
                     {
                         id: "NextButton",
                         src: "assets/imgs/png/nextArrow.png",
-                        webP: "assets/imgs/webP/nextArrow.webP",
+                        webP: "assets/imgs/webP/nextArrow.webp",
                     }
                 ],
                 snds: soundAssets
