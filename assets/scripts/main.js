@@ -11,7 +11,8 @@ Buttons behave weirdly on touchscreens
 Too many textures. Doesn't seem to increase when changing between submenus???
 
 Sounds to include (be careful about duplicates) (exclude some that don't work well)
-Toad moment
+
+Statement still stands (10:51)
 https://www.youtube.com/watch?v=THYGqi4yIio
 https://www.youtube.com/watch?v=xzaqI0JHDsA
 https://www.youtube.com/watch?v=UT6AdRNKKy0
@@ -185,68 +186,70 @@ const game = (_ => {
         },
         {
             src: "futureScott",
-            noIcon: true
+            color: "#454e5a"
         },
         {
             src: "200Nes",
-            noIcon: true
+            color: "#52daff"
         },
         {
             src: "fridgeUnplugged",
-            noIcon: true
+            color: "#6d3c02"
         },
         {
             src: "integrity",
-            noIcon: true
+            color: "#52daff"
         },
         {
             src: "sonicSpinball",
-            noIcon: true
+            color: "#52daff"
         },
         {
             src: "scottNo",
-            noIcon: true
+            color: "#a0b3ce",
+            iconSize: 0.95,
         },
         {
             src: "madden08",
             name: "Madden 08",
-            noIcon: true
+            color: "#044fb2",
+            iconSize: 0.95
         },
         {
             src: "definition",
-            noIcon: true
+            color: "#a0a5b8"
         },
         {
             src: "finalBreath",
-            noIcon: true
+            color: "#767d91"
         },
         {
             src: "ringtone",
-            noIcon: true
+            color: "white"
         },
         {
             src: "911Here",
-            noIcon: true
+            color: "#474355"
         },
         {
             src: "911CallBack",
-            noIcon: true
+            color: "#a08f81"
         },
         {
             src: "firstUseAnalogy",
-            noIcon: true
+            color: "#c49904"
         },
         {
             src: "calledIt",
-            noIcon: true
+            color: "#0600fa"
         },
         {
             src: "topAlcohol",
-            noIcon: true
+            color: "white"
         },
         {
             src: "thumbPlacement",
-            noIcon: true
+            color: "white"
         }
     ];
 
