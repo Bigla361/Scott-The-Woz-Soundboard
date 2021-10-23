@@ -2,6 +2,11 @@
 TODO
 Add part preloading assets to Bagel.js, fix issue where the video doesn't load in time
 MP3 versions
+webP icons
+Next and previous buttons
+
+Bugs
+Too many textures. Doesn't seem to increase when changing between submenus???
 
 Sounds to include (be careful about duplicates) (exclude some that don't work well)
 Toad moment
@@ -18,73 +23,166 @@ const game = (_ => {
     const capitalizeFirstCharacter = word => word[0].toUpperCase() + word.slice(1, word.length);
     const sounds = [
         {
-            src: "photoChannelDrink"
+            src: "photoChannelDrink",
+            iconSize: 0.8,
+            color: "white"
         },
         {
-            src: "dinnerServed"
+            src: "dinnerServed",
+            color: "#615339"
         },
         {
-            src: "badMeals"
+            src: "badMeals",
+            color: "#28c8ff"
         },
         {
-            src: "notDoingIt"
+            src: "notDoingIt",
+            color: "#eccaa5"
         },
         {
-            src: "buyHouseKey"
+            src: "buyHouseKey",
+            color: "black"
         },
         {
-            src: "soup"
+            src: "soup",
+            color: "white"
         },
         {
-            src: "thatsMe"
+            src: "thatsMe",
+            name: "That's Me",
+            color: "#f2e8d8"
         },
         {
-            src: "metricPumpkin"
+            src: "metricPumpkin",
+            color: "white"
         },
         {
-            src: "triangleScamo"
+            src: "triangleScamo",
+            color: "#e8e2db"
         },
         {
-            src: "homelessApplication"
+            src: "homelessApplication",
+            color: "#7a88aa"
         },
         {
-            src: "wordReference"
+            src: "wordReference",
+            color: "#f3dbd9"
         },
         {
-            src: "crazyRoom"
+            src: "crazyRoom",
+            color: "#6ee2fe"
         },
         {
-            src: "tableSeason"
+            src: "tableSeason",
+            color: "#e1c1af"
         },
         {
             src: "vCard",
-            name: "V-Card"
+            name: "V-Card",
+            color: "#5a7e95"
         },
         {
-            src: "pinballMachine"
+            src: "pinballMachine",
+            color: "#6ee2fe"
         },
         {
-            src: "sitAtTable"
+            src: "sitAtTable",
+            color: "#ffdd77"
         },
         {
-            src: "barrelBlast"
+            src: "barrelBlast",
+            color: "white"
         },
         {
-            src: "conversationPiece"
+            src: "conversationPiece",
+            color: "#034aa4"
         },
         {
-            src: "associateWithDead"
+            src: "associateWithDead",
+            color: "#d2b59a"
         },
         {
-            src: "wbamo"
+            src: "wbamo",
+            name: "WBAMO!",
+            iconSize: 0.95,
+            color: "white"
         },
         {
-            src: "whiteGuy"
+            src: "whiteGuy",
+            color: "#868686"
         },
         {
-            src: "donkeyKong"
+            src: "donkeyKong",
+            color: "#c68860"
+        },
+        {
+            src: "fnafStop",
+            name: "FNAF Stop",
+            color: "#0482f8"
+        },
+        {
+            src: "hateSex",
+            name: "You Hate Sex Too?",
+            color: "#ffd266"
+        },
+        {
+            src: "consumption",
+            color: "#c57e25"
+        },
+        {
+            src: "minecraft",
+            color: "#00d9ff"
+        },
+        {
+            src: "creditScore",
+            color: "#c14b43"
+        },
+        {
+            src: "tapWater",
+            color: "black"
+        },
+        {
+            src: "leadPaint",
+            color: "#ad9e9b"
+        },
+        {
+            src: "beans",
+            color: "#0276ed"
+        },
+        {
+            src: "killInteresting",
+            name: "Kill to be Interesting",
+            color: "#fedf90"
+        },
+        {
+            src: "contributingToSociety",
+            iconSize: 0.95,
+            color: "black"
+        },
+        {
+            src: "heySociety",
+            iconSize: 0.95,
+            color: "black"
+        },
+        {
+            src: "smokingBad",
+            color: "#79898b"
+        },
+        {
+            src: "marioBrosCigarettes",
+            color: "#79898b"
+        },
+        {
+            src: "chaperoneNo",
+            name: "Chaperone: No!",
+            color: "#525b7f"
+        },
+        {
+            src: "toadMoment",
+            color: "white"
         }
     ];
+
     for (let i in sounds) {
         let sound = sounds[i];
         let src = sound.src;
@@ -108,35 +206,109 @@ const game = (_ => {
     }
 
     sounds.sort((a, b) => a.name.localeCompare(b.name));
-    const buttons = [];
+
+    const soundMenus = {};
+    const baseSubmenu = {
+        hoverText: {
+            color: "#EFEFEF"
+        },
+        elements: [
+            {
+                type: "image",
+                color: "#303030",
+                x: 225,
+                bottom: 800,
+                width: 450,
+                height: 118.75
+            }
+        ]
+    };
+    const nextButton = currentPage => ({
+        type: "button",
+        icon: "NextButton",
+        size: 75,
+        color: "white",
+        onClick: {
+            submenu: "main" + (currentPage + 1)
+        },
+        x: 375,
+        y: 737.5
+    });
+    const previousButton = currentPage => ({
+        type: "button",
+        icon: "PreviousButton",
+        size: 75,
+        color: "white",
+        onClick: {
+            submenu: "main" + (currentPage - 1),
+            animation: {
+                direction: "left"
+            }
+        },
+        x: 75,
+        y: 737.5
+    });
+
+    let soundPageCount = 0;
     let count = 0;
+    let vCount = 0;
     let x = 75;
-    let y = 150;
+    let y = 125;
+    let soundMenu = Bagel.internal.deepClone(baseSubmenu);
+    let buttons = soundMenu.elements;
     for (i in sounds) {
         let sound = sounds[i];
-        buttons.push({
+        let button = {
             type: "button",
-            color: "red",
+            color: sound.color? sound.color : "red",
             onClick: element => {
                 game.playSound(element.vars.sound);
             },
             onHover: sound.name,
             size: 75,
+            iconSize: 0.65,
             x: x,
             y: y,
             vars: {
                 sound: sound.asset
             }
-        });
+        };
+        if (! sound.noIcon) {
+            button.icon = sound.asset;
+            if (sound.iconSize) button.iconSize = sound.iconSize;
+        }
+        buttons.push(button);
+
         x += 100;
         count++;
         if (count == 4) {
             x = 75;
             y += 100;
             count = 0;
+            vCount++;
+        }
+        if (vCount == 6 || i == (sounds.length - 1)) {
+            let newSubmenu = vCount == 6;
+            count = 0;
+            vCount = 0;
+            y = 125;
+            if (newSubmenu) {
+                buttons.push(nextButton(soundPageCount));
+            }
+            soundMenus["main" + soundPageCount] = soundMenu;
+            soundPageCount++;
+            if (newSubmenu) {
+                soundMenu = Bagel.internal.deepClone(baseSubmenu);
+                buttons = soundMenu.elements;
+                buttons.push(previousButton(soundPageCount));
+            }
         }
     }
 
+    const icons = sounds.map(sound => (! sound.noIcon)? ({
+        id: sound.asset,
+        src: "assets/imgs/png/soundIcons/" + sound.src + ".png"
+    }) : null).filter(value => value != null);
     const soundAssets = sounds.map(sound => ({
         id: sound.asset,
         src: "assets/snds/mp3/" + sound.src + ".mp3",
@@ -163,7 +335,18 @@ const game = (_ => {
                     }
                 ],
                 imgs: [
+                    ...icons,
 
+                    {
+                        id: "PreviousButton",
+                        src: "assets/imgs/png/previousArrow.png",
+                        webP: "assets/imgs/webP/previousArrow.webP",
+                    },
+                    {
+                        id: "NextButton",
+                        src: "assets/imgs/png/nextArrow.png",
+                        webP: "assets/imgs/webP/nextArrow.webP",
+                    }
                 ],
                 snds: soundAssets
             },
@@ -239,7 +422,7 @@ const game = (_ => {
                     id: "IntroText2",
                     type: "text",
                     color: "#EFEFEF",
-                    y: 600,
+                    y: 590,
                     scripts: {
                         init: [
                             {
@@ -264,15 +447,8 @@ const game = (_ => {
                 {
                     id: "Menu",
                     type: "GUI",
-                    submenu: "main",
-                    submenus: {
-                        main: {
-                            elements: buttons,
-                            hoverText: {
-                                color: "#EFEFEF"
-                            }
-                        }
-                    },
+                    submenu: "main0",
+                    submenus: soundMenus,
                     stateToActivate: "menu"
                 }
             ]
