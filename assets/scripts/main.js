@@ -190,6 +190,7 @@ const game = (_ => {
         },
         {
             src: "200Nes",
+            name: "200 NES",
             color: "#52daff"
         },
         {
@@ -206,8 +207,9 @@ const game = (_ => {
         },
         {
             src: "scottNo",
+            name: "Scott: No!",
             color: "#a0b3ce",
-            iconSize: 0.95,
+            iconSize: 0.9
         },
         {
             src: "madden08",
@@ -286,10 +288,22 @@ const game = (_ => {
             {
                 type: "image",
                 color: "#303030",
-                x: 225,
                 bottom: 800,
                 width: 450,
-                height: 118.75
+                height: 100
+            },
+
+            {
+                type: "button",
+                color: "#EFEFEF",
+                onClick: {
+                    submenu: "searchBox",
+                    animation: {
+                        direction: "up"
+                    }
+                },
+                y: 45,
+                size: 60
             }
         ]
     };
@@ -302,7 +316,7 @@ const game = (_ => {
             submenu: "main" + (currentPage + 1)
         },
         x: 375,
-        y: 737.5
+        y: 750
     });
     const previousButton = currentPage => ({
         type: "button",
@@ -316,14 +330,14 @@ const game = (_ => {
             }
         },
         x: 75,
-        y: 737.5
+        y: 750
     });
 
     let soundPageCount = 0;
     let count = 0;
     let vCount = 0;
     let x = 75;
-    let y = 125;
+    let y = 140;
     let soundMenu = Bagel.internal.deepClone(baseSubmenu);
     let buttons = soundMenu.elements;
     for (i in sounds) {
@@ -361,7 +375,7 @@ const game = (_ => {
             let newSubmenu = vCount == 6;
             count = 0;
             vCount = 0;
-            y = 125;
+            y = 140;
             if (newSubmenu) {
                 buttons.push(nextButton(soundPageCount));
             }
@@ -518,7 +532,21 @@ const game = (_ => {
                     id: "Menu",
                     type: "GUI",
                     submenu: "main0",
-                    submenus: soundMenus,
+                    submenus: {
+                        ...soundMenus,
+                        searchBox: {
+                            elements: [
+                                {
+                                    type: "button",
+                                    color: "#EFEFEF",
+                                    size: 60
+                                }
+                            ]
+                        },
+                        searchResults: {
+                            elements: []
+                        }
+                    },
                     stateToActivate: "menu"
                 }
             ]
