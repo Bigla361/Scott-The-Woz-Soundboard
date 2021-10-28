@@ -7,14 +7,34 @@
         types: {
             assets: {
                 videos: {
-                    args: {},
+                    args: {
+                        preload: {
+                            required: false,
+                            default: "metadata",
+                            check: value => {
+                                if (! ["metadata", "some", "all"].includes(value)) {
+                                    return "Oh no! That's not a valid option. It has to be either \"metadata\", \"some\" or \"all\".";
+                                }
+                            },
+                            types: ["string"],
+                            description: "How the video should be preloaded. Either \"metadata\", \"some\" or \"all\". \"some\" will load enough to be able to play the video without buffering (assuming no unexpected increases in network requests) and \"all\" will load the whole video. This should only really be used in specific situations like loading screens and for short videos."
+                        }
+                    },
                     init: (asset, ready, game, plugin, index) => {
                         let video = document.createElement("video");
 
                         Bagel.internal.render.texture.new(asset.id, game.internal.renderer.blankTexture, game);
                         ((video, ready, asset, plugin, currentWas, game) => {
-                            video.onloadeddata = event => {
+                            video.onloadeddata = _ => {
                                 video.pause();
+                                video.muted = false;
+                                video.currentTime = 0;
+                                video.onloadeddata = null;
+                            };
+                            video[asset.preload == "metadata"? "onloadedmetadata" : "oncanplaythrough"] = _ => {
+                                if (! video.paused) {
+                                    video.pause();
+                                }
                                 video.muted = false;
                                 video.currentTime = 0;
 
@@ -29,6 +49,9 @@
                                 Bagel.internal.render.texture.update(asset.id, canvas, game);
                                 Bagel.internal.loadCurrent();
 
+                                video.oncanplaythrough = null;
+                                video.onloadedmetadata = null;
+
                                 ready({
                                     ...asset,
                                     video: video,
@@ -40,16 +63,39 @@
                                 });
                             };
                         })(video, ready, asset, plugin, {...Bagel.internal.current}, game);
-                        video.src = asset.src;
-                        video.load();
+                        if (asset.preload == "metadata") {
+                            video.preload = "metadata";
+                        }
 
-                        // Play it for a frame or so. This means the first frame is loaded
-                        video.muted = true; // Mute it so it can auto play
-                        (video => {
-                            video.play().catch(() => {
-                                video.pause();
-                            });
-                        })(video);
+                        if (asset.preload == "all") {
+                            ((video, asset) => {
+                                fetch(asset.src).then(res => res.blob().then(res => {
+                                    video.src = URL.createObjectURL(res);
+                                    video.load();
+
+                                    // Play it for a frame or so. This means the first frame is loaded
+                                    video.muted = true; // Mute it so it can auto play
+                                    (video => {
+                                        video.play().catch(() => {
+                                            video.pause();
+                                        });
+                                    })(video);
+                                }));
+                            })(video, asset);
+                        }
+                        else {
+                            video.src = asset.src;
+                            video.load();
+
+                            // Play it for a frame or so. This means the first frame is loaded
+                            video.muted = true; // Mute it so it can auto play
+                            (video => {
+                                video.play().catch(() => {
+                                    video.pause();
+                                });
+                            })(video);
+                        }
+
                     },
                     get: "video",
                     description: "A video. Creates an image asset with the same id that updates as it plays."
