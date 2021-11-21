@@ -493,6 +493,9 @@ const game = (_ => {
     return Bagel.init({
         id: "soundboard",
         state: "menu",
+        vars: {
+            sounds: sounds
+        },
         game: {
             plugins: [
                 {
